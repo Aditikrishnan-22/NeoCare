@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoCare — My Dashboard</title>
+    <meta name="description"
+        content="NeoCare dashboard — manage your profile, baby details, and partner/husband information." />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --rose: #c4736a;
+            --rose-d: #a85c54;
+            --rose-l: #e8a49e;
+            --rose-pale: #f9ece9;
+            --rose-soft: #f2dbd8;
+            --sage: #7a9e82;
+            --sage-pale: #edf4ee;
+            --sage-d: #5a7d62;
+            --gold: #c4a45a;
+            --gold-pale: #fef9ed;
+            --ink: #2c1f1a;
+            --mid: #7a5e58;
+            --soft: #b09893;
+            --cream: #fdf8f4;
+            --white: #fffbf9;
+            --ok: #5a8f62;
+            --ok-bg: #edf6ee;
+            --warn: #c47b2a;
+            --warn-bg: #fef5e7;
+            --danger: #b8413a;
+            --danger-bg: #fce9e8;
+            --r: 16px;
+            --shadow: 0 2px 20px rgba(44, 31, 26, .08);
+            --shadow-md: 0 6px 30px rgba(44, 31, 26, .12);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ── NAV ───────────────────────────────── */
+        nav {
+            background: rgba(253, 248, 244, .97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(196, 115, 106, .12);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 64px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--rose), var(--rose-d));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 12px rgba(196, 115, 106, .3);
+        }
+
+        .brand-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .brand-text span {
+            color: var(--rose);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            padding: 6px 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: .84rem;
+            font-weight: 500;
+            color: var(--mid);
+            transition: all .18s;
+        }
+
+        .nav-links a:hover {
+            background: var(--rose-pale);
+            color: var(--ink);
+        }
+
+        .nav-links a.active {
+            background: var(--rose-soft);
+            color: var(--rose-d);
+            font-weight: 600;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose-pale), var(--sage-pale));
+            border: 2px solid rgba(196, 115, 106, .25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .95rem;
+        }
+
+        .nav-name {
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .btn-logout {
+            padding: 6px 14px;
+            border-radius: 9px;
+            background: var(--rose-pale);
+            border: 1.5px solid rgba(196, 115, 106, .2);
+            color: var(--rose-d);
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all .18s;
+        }
+
+        .btn-logout:hover {
+            background: var(--rose-soft);
+        }
+
+        /* ── PAGE ──────────────────────────────── */
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.2rem;
+            animation: fadeUp .5s ease;
+        }
+
+        .page-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--rose-pale);
+            color: var(--rose-d);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            margin-bottom: .8rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: .4rem;
+        }
+
+        .page-header h1 em {
+            font-style: italic;
+            color: var(--rose);
+        }
+
+        .page-header p {
+            color: var(--mid);
+            font-size: .9rem;
+            line-height: 1.7;
+        }
+
+        /* ── STATS STRIP ─────────────────────────────────── */
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 251, 249, .95);
+            border: 1px solid rgba(220, 195, 190, .45);
+            border-radius: var(--r);
+            padding: 1.3rem 1.2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            animation: fadeUp .4s ease both;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: .07s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: .14s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: .21s;
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            margin-bottom: .4rem;
+        }
+
+        .stat-val {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--rose);
+        }
+
+        .stat-lbl {
+            font-size: .72rem;
+            color: var(--soft);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin-top: 2px;
+        }
+
+        /* ── GRID LAYOUT ─────────────────────────────────── */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .dash-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* ── CARD ─────────────────────────────── */
+        .card {
+            background: rgba(255, 251, 249, .95);
+            border: 1px solid rgba(220, 195, 190, .45);
+            border-radius: var(--r);
+            padding: 1.6rem;
+            box-shadow: var(--shadow);
+            animation: fadeUp .4s ease;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.3rem;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .ci-rose {
+            background: var(--rose-pale);
+        }
+
+        .ci-sage {
+            background: var(--sage-pale);
+        }
+
+        .ci-gold {
+            background: var(--gold-pale);
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .card-subtitle {
+            font-size: .78rem;
+            color: var(--soft);
+            margin-top: 1px;
+        }
+
+        /* ── FORM ─────────────────────────────── */
+        .form-row {
+            display: grid;
+            gap: .85rem;
+            margin-bottom: .85rem;
+        }
+
+        .form-row.two {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .form-row.three {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-label {
+            font-size: .7rem;
+            font-weight: 600;
+            color: var(--mid);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .form-input,
+        .form-select {
+            padding: 9px 13px;
+            border: 1.5px solid rgba(196, 115, 106, .2);
+            border-radius: 11px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .875rem;
+            color: var(--ink);
+            background: var(--white);
+            outline: none;
+            transition: border-color .18s, box-shadow .18s;
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 3px rgba(196, 115, 106, .12);
+        }
+
+        .form-input[readonly] {
+            background: rgba(196, 115, 106, .05);
+            color: var(--mid);
+            cursor: default;
+        }
+
+        .section-divider {
+            font-size: .7rem;
+            font-weight: 700;
+            color: var(--soft);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin: 1.3rem 0 .8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(196, 115, 106, .15);
+        }
+
+        /* ── BUTTONS ──────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-rose {
+            background: linear-gradient(135deg, var(--rose), var(--rose-d));
+            color: white;
+            box-shadow: 0 4px 16px rgba(196, 115, 106, .3);
+        }
+
+        .btn-rose:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 115, 106, .38);
+        }
+
+        .btn-rose:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-ghost {
+            background: var(--rose-pale);
+            color: var(--rose-d);
+            border: 1.5px solid rgba(196, 115, 106, .2);
+        }
+
+        .btn-ghost:hover {
+            background: var(--rose-soft);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, var(--sage), var(--sage-d));
+            color: white;
+            box-shadow: 0 4px 16px rgba(122, 158, 130, .3);
+        }
+
+        .btn-green:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 7px 16px;
+            font-size: .8rem;
+        }
+
+        .save-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1.1rem;
+            flex-wrap: wrap;
+        }
+
+        .saved-badge {
+            font-size: .82rem;
+            color: var(--ok);
+            font-weight: 600;
+            display: none;
+            animation: fadeUp .3s ease;
+        }
+
+        .spinner-sm {
+            width: 16px;
+            height: 16px;
+            border: 2.5px solid rgba(255, 255, 255, .4);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── ALERT / MODULE CARDS ─────────────── */
+        .alert {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: .85rem 1.1rem;
+            border-radius: 11px;
+            font-size: .855rem;
+            line-height: 1.7;
+            margin-bottom: .9rem;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #eef4fc;
+            border-color: rgba(90, 143, 192, .3);
+            color: #244a70;
+        }
+
+        .alert-ok {
+            background: var(--ok-bg);
+            border-color: rgba(90, 143, 90, .3);
+            color: #2d5a2d;
+        }
+
+        .alert-warn {
+            background: var(--warn-bg);
+            border-color: rgba(196, 123, 42, .3);
+            color: #7a4a10;
+        }
+
+        /* ── MODULE NAVIGATION CARDS ────────────── */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .module-nav-card {
+            background: rgba(255, 251, 249, .92);
+            border: 1px solid rgba(220, 195, 190, .45);
+            border-radius: var(--r);
+            padding: 1.4rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            transition: transform .25s, box-shadow .25s;
+            box-shadow: var(--shadow);
+        }
+
+        .module-nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .mnc-emoji {
+            font-size: 2rem;
+        }
+
+        .mnc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .mnc-desc {
+            font-size: .78rem;
+            color: var(--mid);
+            line-height: 1.5;
+        }
+
+        .mnc-footer {
+            margin-top: .6rem;
+            padding-top: .6rem;
+            border-top: 1px solid rgba(220, 195, 190, .4);
+            font-size: .76rem;
+            color: var(--rose-d);
+            font-weight: 600;
+        }
+
+        /* ── WELLNESS + ALERTS ────────────────── */
+        .wellness-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wellness-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--ok);
+            flex-shrink: 0;
+        }
+
+        .wc-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ok);
+            line-height: 1;
+        }
+
+        .wc-lbl {
+            font-size: .55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--ok);
+        }
+
+        .risk-bar-track {
+            height: 8px;
+            background: rgba(196, 115, 106, .1);
+            border-radius: 100px;
+            overflow: hidden;
+            margin-top: .5rem;
+        }
+
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 100px;
+            background: var(--ok);
+            transition: width .9s ease;
+        }
+
+        .alert-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: .85rem 1rem;
+            border-radius: 11px;
+            font-size: .85rem;
+            line-height: 1.65;
+            margin-bottom: 8px;
+            border: 1px solid;
+        }
+
+        .a-high {
+            background: var(--danger-bg);
+            border-color: rgba(184, 65, 58, .2);
+        }
+
+        .a-med {
+            background: var(--warn-bg);
+            border-color: rgba(196, 123, 42, .2);
+        }
+
+        .dash-empty {
+            color: var(--soft);
+            font-size: .875rem;
+            padding: .5rem 0;
+        }
+
+        .consent-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: .87rem;
+            color: var(--ink);
+            cursor: pointer;
+            margin-top: .5rem;
+        }
+
+        .consent-row input {
+            accent-color: var(--rose);
+            width: 15px;
+            height: 15px;
+        }
+
+        /* ── FOOTER ──────────────────────────── */
+        footer {
+            text-align: center;
+            padding: 1.6rem;
+            font-size: .76rem;
+            color: var(--soft);
+            border-top: 1px solid rgba(220, 195, 190, .35);
+        }
+
+        footer a {
+            color: var(--rose);
+            text-decoration: none;
+        }
+
+        /* ── ANIMATIONS ──────────────────────── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── RESPONSIVE ──────────────────────── */
+        @media (max-width: 900px) {
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-inner {
+                flex-direction: column;
+                height: auto;
+                padding: .8rem 0;
+                gap: .6rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: .78rem;
+            }
+
+            .page {
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            .form-row.two,
+            .form-row.three {
+                grid-template-columns: 1fr;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="brand">
+                <div class="brand-mark">🌿</div>
+                <span class="brand-text">Neo<span>Care</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">🏠 Home</a>
+                <a href="growth.html">📏 Growth</a>
+                <a href="milestones.html">🧠 Milestones</a>
+                <a href="postpartum.html">💚 Postpartum</a>
+                <a href="dashboard.html" class="active">👤 Dashboard</a>
+            </div>
+            <div class="nav-user">
+                <div class="nav-avatar">👩</div>
+                <span class="nav-name" id="navName">Loading…</span>
+                <button class="btn-logout" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE -->
+    <main class="page">
+
+        <div class="page-header">
+            <div class="page-tag">👤 My Dashboard</div>
+            <h1>Welcome back, <em id="headerName">there</em>! 💛</h1>
+            <p>Manage your profile, update your baby's details, and configure your partner's alert settings below.</p>
+        </div>
+
+        <!-- STATS STRIP -->
+        <div class="stats-strip">
+            <div class="stat-card">
+                <div class="stat-icon">👶</div>
+                <div class="stat-val" id="statBabyAge">—</div>
+                <div class="stat-lbl">Baby's Age</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🤱</div>
+                <div class="stat-val" id="statBf">—</div>
+                <div class="stat-lbl">Breastfeeding</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏥</div>
+                <div class="stat-val" id="statDelivery">—</div>
+                <div class="stat-lbl">Delivery Type</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💚</div>
+                <div class="stat-val" id="statWellness">🟢</div>
+                <div class="stat-lbl">Wellness Status</div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="dash-grid">
+
+            <!-- MOTHER PROFILE CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon ci-rose">👩</div>
+                    <div>
+                        <div class="card-title">Mother Profile</div>
+                        <div class="card-subtitle">Your personal & health details</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="pFullName" class="form-input" placeholder="Your full name" />
+                    </div>
+                </div>
+                <div class="form-row two">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="pEmail" class="form-input" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" id="pPhone" class="form-input" placeholder="+91 98765 43210" />
+                    </div>
+                </div>
+                <div class="form-row two">
+                    <div class="form-group">
+                        <label class="form-label">Delivery Type</label>
+                        <select id="pDelivery" class="form-select">
+                            <option value="vaginal">Vaginal</option>
+                            <option value="c-section">C-Section</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Breastfeeding</label>
+                        <select id="pBf" class="form-select">
+                            <option value="exclusive">Yes — exclusively</option>
+                            <option value="mixed">Yes — mixed</option>
+                            <option value="formula">Formula only</option>
+                            <option value="no">Not breastfeeding</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="save-row">
+                    <button class="btn btn-rose btn-sm" id="saveProfileBtn" onclick="saveProfile()">
+                        💾 Save Profile <div class="spinner-sm" id="saveProfileSpinner"></div>
+                    </button>
+                    <span class="saved-badge" id="saveProfileBadge">✓ Saved!</span>
+                </div>
+            </div>
+
+            <!-- BABY DETAILS CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon ci-sage">👶</div>
+                    <div>
+                        <div class="card-title">Baby Details</div>
+                        <div class="card-subtitle">Track your little one's info</div>
+                    </div>
+                </div>
+
+                <div class="form-row two">
+                    <div class="form-group">
+                        <label class="form-label">Baby's Name</label>
+                        <input type="text" id="pBabyName" class="form-input" placeholder="e.g. Arjun" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" id="pBabyDob" class="form-input" />
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-top:.5rem">
+                    <span>ℹ️</span>
+                    <div>Baby's date of birth is used to automatically calculate age for growth charts and milestone
+                        tracking.</div>
+                </div>
+
+                <div id="babyAgeDisplay"
+                    style="font-size:.88rem;color:var(--mid);margin-top:.2rem;font-weight:500;display:none">
+                    🎂 Current age: <strong id="babyAgeText"></strong>
+                </div>
+
+                <div class="save-row">
+                    <button class="btn btn-rose btn-sm" id="saveBabyBtn" onclick="saveBaby()">
+                        💾 Save Baby Info <div class="spinner-sm" id="saveBabySpinner"></div>
+                    </button>
+                    <span class="saved-badge" id="saveBabyBadge">✓ Saved!</span>
+                </div>
+            </div>
+
+            <!-- PARTNER / HUSBAND CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon ci-gold">💑</div>
+                    <div>
+                        <div class="card-title">Partner / Husband Details</div>
+                        <div class="card-subtitle">For wellness alerts when distress is detected</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-ok" style="margin-bottom:1.1rem">
+                    <span>💚</span>
+                    <div>When the AI detects repeated distress signals, a brief wellness alert (no chat content) will be
+                        shared with your trusted person.</div>
+                </div>
+
+                <div class="form-row two">
+                    <div class="form-group">
+                        <label class="form-label">Partner's Name</label>
+                        <input type="text" id="partnerName" class="form-input" placeholder="e.g. Rahul" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Relationship</label>
+                        <select id="partnerRelation" class="form-select">
+                            <option value="husband">Husband</option>
+                            <option value="mother">Mother</option>
+                            <option value="mother-in-law">Mother-in-law</option>
+                            <option value="sister">Sister</option>
+                            <option value="friend">Close Friend</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row two">
+                    <div class="form-group">
+                        <label class="form-label">Partner's Email</label>
+                        <input type="email" id="partnerEmail" class="form-input" placeholder="partner@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Partner's Phone</label>
+                        <input type="tel" id="partnerPhone" class="form-input" placeholder="+91 98765 43210" />
+                    </div>
+                </div>
+
+                <label class="consent-row">
+                    <input type="checkbox" id="alertConsent" checked />
+                    Enable wellness alerts to this person when distress patterns are detected
+                </label>
+
+                <div class="save-row">
+                    <button class="btn btn-rose btn-sm" id="savePartnerBtn" onclick="savePartner()">
+                        💾 Save Partner Info <div class="spinner-sm" id="savePartnerSpinner"></div>
+                    </button>
+                    <span class="saved-badge" id="savePartnerBadge">✓ Saved!</span>
+                </div>
+            </div>
+
+            <!-- WELLNESS CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon ci-sage">💚</div>
+                    <div>
+                        <div class="card-title">Wellness Overview</div>
+                        <div class="card-subtitle">Your recent emotional health signals</div>
+                    </div>
+                </div>
+
+                <div class="wellness-row">
+                    <div class="wellness-circle" id="wellnessCircle">
+                        <span class="wc-num" id="wellnessScore">0</span>
+                        <span class="wc-lbl">/ 100</span>
+                    </div>
+                    <div style="flex:1">
+                        <div style="font-weight:700;font-size:.95rem;color:var(--ink)" id="wellnessLabel">All Good 🟢
+                        </div>
+                        <div style="font-size:.78rem;color:var(--soft);margin-top:3px" id="wellnessNote">Keep checking
+                            in 💛</div>
+                        <div class="risk-bar-track" style="margin-top:.7rem">
+                            <div class="risk-bar-fill" id="wellnessBar" style="width:4%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.7rem">📋 Recent Alerts
+                </div>
+                <div id="alertsContainer">
+                    <div class="dash-empty">Loading alerts…</div>
+                </div>
+
+                <div
+                    style="margin-top:1rem;padding:1rem;background:var(--sage-pale);border-radius:12px;font-size:.82rem;color:#2d5a2d;line-height:1.7">
+                    🔒 <strong>Privacy:</strong> NeoCare never shares your chat messages. Only a brief wellness score is
+                    included in guardian alerts. You are fully in control.
+                </div>
+            </div>
+
+            <!-- MODULE NAVIGATION — FULL WIDTH -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <div class="card-icon ci-rose">🚀</div>
+                    <div>
+                        <div class="card-title">NeoCare Modules</div>
+                        <div class="card-subtitle">Navigate to any tracking module</div>
+                    </div>
+                </div>
+
+                <div class="module-grid">
+                    <a href="growth.html" class="module-nav-card">
+                        <div class="mnc-emoji">📏</div>
+                        <div class="mnc-title">Child Growth Monitoring</div>
+                        <div class="mnc-desc">WHO-validated charts for weight, height & head circumference. Identifies
+                            undernutrition and growth abnormalities early.</div>
+                        <div class="mnc-footer">0 – 5 Years · WHO Standards →</div>
+                    </a>
+                    <a href="milestones.html" class="module-nav-card">
+                        <div class="mnc-emoji">🧠</div>
+                        <div class="mnc-title">Developmental Milestones</div>
+                        <div class="mnc-desc">TDSC-based milestone screening across motor, language, and social domains.
+                            Detects early developmental delays.</div>
+                        <div class="mnc-footer">0 – 3 Years · TDSC-Based →</div>
+                    </a>
+                    <a href="postpartum.html" class="module-nav-card">
+                        <div class="mnc-emoji">💚</div>
+                        <div class="mnc-title">Postpartum Care Assistant</div>
+                        <div class="mnc-desc">AI chat for breastfeeding, recovery & mental health. Includes EPDS
+                            screening and guardian wellness alerts.</div>
+                        <div class="mnc-footer">AI Chat · PPD Screening →</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        🌿 NeoCare — AI-powered postpartum support · Screening tool only · Always consult a healthcare
+        professional<br />
+        <span style="font-size:.7rem">Crisis support: iCall <strong>9152987821</strong> · Vandrevala
+            <strong>1860-2662-345</strong></span>
+    </footer>
+
+    <script>
+        const API = 'http://127.0.0.1:8000/api';
+        const TOKEN = localStorage.getItem('nc_token');
+        let USER = {};
+
+        // ── AUTH GUARD ────────────────────────────────────────────────────
+        if (!TOKEN) {
+            window.location.href = 'login.html';
+        }
+
+        // ── LOAD USER ─────────────────────────────────────────────────────
+        async function loadUser() {
+            try {
+                const res = await fetch(`${API}/auth/me?token=${TOKEN}`);
+                if (!res.ok) throw new Error('Not authenticated');
+                const data = await res.json();
+                USER = data.user;
+                populateUI();
+                loadWellness();
+            } catch (e) {
+                localStorage.removeItem('nc_token');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function populateUI() {
+            // Nav & header
+            document.getElementById('navName').textContent = USER.full_name || 'User';
+            document.getElementById('headerName').textContent = (USER.full_name || 'there').split(' ')[0];
+
+            // Mother profile
+            document.getElementById('pFullName').value = USER.full_name || '';
+            document.getElementById('pEmail').value = USER.email || '';
+            document.getElementById('pPhone').value = USER.phone || '';
+            setSelect('pDelivery', USER.delivery_type || 'vaginal');
+            setSelect('pBf', USER.bf_status || 'exclusive');
+
+            // Baby details
+            document.getElementById('pBabyName').value = USER.baby_name || '';
+            document.getElementById('pBabyDob').value = USER.baby_dob || '';
+            if (USER.baby_dob) updateBabyAge(USER.baby_dob);
+
+            // Partner
+            document.getElementById('partnerName').value = USER.partner_name || '';
+            document.getElementById('partnerEmail').value = USER.partner_email || '';
+            document.getElementById('partnerPhone').value = USER.partner_phone || '';
+            setSelect('partnerRelation', USER.partner_relation || 'husband');
+            document.getElementById('alertConsent').checked = USER.alert_consent !== false;
+
+            // Stats
+            updateStats();
+        }
+
+        function setSelect(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        }
+
+        function updateStats() {
+            // Baby age
+            if (USER.baby_dob) {
+                const age = calcAge(USER.baby_dob);
+                document.getElementById('statBabyAge').textContent = age;
+            } else {
+                document.getElementById('statBabyAge').textContent = 'Not set';
+            }
+            // Breastfeeding
+            const bf = { exclusive: 'Yes', mixed: 'Mixed', formula: 'Formula', no: 'No' };
+            document.getElementById('statBf').textContent = bf[USER.bf_status] || '—';
+            // Delivery
+            const del = { 'vaginal': 'Vaginal', 'c-section': 'C-section' };
+            document.getElementById('statDelivery').textContent = del[USER.delivery_type] || '—';
+        }
+
+        function calcAge(dob) {
+            const now = new Date();
+            const born = new Date(dob);
+            const ms = now - born;
+            const days = Math.floor(ms / 86400000);
+            if (days < 7) return `${days}d`;
+            const weeks = Math.floor(days / 7);
+            if (weeks < 8) return `${weeks}w`;
+            const months = Math.floor(days / 30.44);
+            if (months < 24) return `${months}mo`;
+            return Math.floor(months / 12) + 'y';
+        }
+
+        function updateBabyAge(dob) {
+            const age = calcAge(dob);
+            const el = document.getElementById('babyAgeDisplay');
+            document.getElementById('babyAgeText').textContent = age;
+            el.style.display = 'block';
+        }
+
+        document.getElementById('pBabyDob')?.addEventListener('change', e => updateBabyAge(e.target.value));
+
+        // ── SAVE HELPERS ──────────────────────────────────────────────────
+        function setBusy(btnId, spinnerId, busy) {
+            document.getElementById(btnId).disabled = busy;
+            document.getElementById(spinnerId).style.display = busy ? 'inline-block' : 'none';
+        }
+        function flashBadge(id) {
+            const el = document.getElementById(id);
+            el.style.display = 'inline';
+            setTimeout(() => el.style.display = 'none', 2500);
+        }
+
+        async function saveProfile() {
+            setBusy('saveProfileBtn', 'saveProfileSpinner', true);
+            await doUpdate({
+                full_name: document.getElementById('pFullName').value.trim(),
+                phone: document.getElementById('pPhone').value.trim() || null,
+                delivery_type: document.getElementById('pDelivery').value,
+                bf_status: document.getElementById('pBf').value,
+            });
+            document.getElementById('navName').textContent = document.getElementById('pFullName').value.trim() || 'User';
+            document.getElementById('headerName').textContent = (document.getElementById('pFullName').value.trim() || 'there').split(' ')[0];
+            updateStats();
+            setBusy('saveProfileBtn', 'saveProfileSpinner', false);
+            flashBadge('saveProfileBadge');
+        }
+
+        async function saveBaby() {
+            setBusy('saveBabyBtn', 'saveBabySpinner', true);
+            const dob = document.getElementById('pBabyDob').value;
+            await doUpdate({
+                baby_name: document.getElementById('pBabyName').value.trim() || null,
+                baby_dob: dob || null,
+            });
+            if (dob) updateBabyAge(dob);
+            updateStats();
+            setBusy('saveBabyBtn', 'saveBabySpinner', false);
+            flashBadge('saveBabyBadge');
+        }
+
+        async function savePartner() {
+            setBusy('savePartnerBtn', 'savePartnerSpinner', true);
+            const partner = {
+                partner_name: document.getElementById('partnerName').value.trim() || null,
+                partner_email: document.getElementById('partnerEmail').value.trim() || null,
+                partner_phone: document.getElementById('partnerPhone').value.trim() || null,
+                partner_relation: document.getElementById('partnerRelation').value,
+                alert_consent: document.getElementById('alertConsent').checked,
+            };
+            await doUpdate(partner);
+            // Also sync to postpartum backend session
+            const sid = localStorage.getItem('nc_sid');
+            if (sid) {
+                fetch(`${API}/partner-setup`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session: sid,
+                        partner: {
+                            name: partner.partner_name,
+                            email: partner.partner_email,
+                            phone: partner.partner_phone,
+                            consent: partner.alert_consent,
+                        },
+                    }),
+                }).catch(() => { });
+            }
+            setBusy('savePartnerBtn', 'savePartnerSpinner', false);
+            flashBadge('savePartnerBadge');
+        }
+
+        async function doUpdate(fields) {
+            try {
+                const res = await fetch(`${API}/auth/update-profile`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: TOKEN, ...fields }),
+                });
+                if (res.ok) {
+                    const d = await res.json();
+                    USER = d.user;
+                    localStorage.setItem('nc_user', JSON.stringify(USER));
+                }
+            } catch (e) { /* server might not be running */ }
+        }
+
+        // ── WELLNESS ───────────────────────────────────────────────────────
+        async function loadWellness() {
+            const sid = localStorage.getItem('nc_sid');
+            if (!sid) { renderAlerts([]); return; }
+            try {
+                const [stateRes, alertsRes] = await Promise.all([
+                    fetch(`${API}/chat-state?session=${sid}`),
+                    fetch(`${API}/alerts?session=${sid}`),
+                ]);
+                const state = await stateRes.json();
+                const alerts = (await alertsRes.json()).alerts || [];
+                const w = state.wellness || { score: 0, level: 'low', label: 'All Good 🟢' };
+
+                // Update wellness circle
+                const score = w.score;
+                const circle = document.getElementById('wellnessCircle');
+                const fill = document.getElementById('wellnessBar');
+                document.getElementById('wellnessScore').textContent = score;
+                document.getElementById('statWellness').textContent = w.level === 'high' ? '🔴' : w.level === 'medium' ? '🟡' : '🟢';
+                fill.style.width = Math.max(4, score) + '%';
+
+                if (w.level === 'high') {
+                    circle.style.borderColor = 'var(--danger)';
+                    document.getElementById('wellnessScore').style.color = 'var(--danger)';
+                    document.getElementById('wc-lbl', circle).style.color = 'var(--danger)';
+                    document.getElementById('wellnessLabel').textContent = 'High Concern 🔴';
+                    document.getElementById('wellnessNote').textContent = 'Consistent distress detected — please seek support.';
+                    fill.style.background = 'var(--danger)';
+                } else if (w.level === 'medium') {
+                    circle.style.borderColor = 'var(--warn)';
+                    document.getElementById('wellnessScore').style.color = 'var(--warn)';
+                    document.getElementById('wellnessLabel').textContent = 'Monitor 🟡';
+                    document.getElementById('wellnessNote').textContent = 'Some distress signals noticed recently.';
+                    fill.style.background = 'var(--warn)';
+                } else {
+                    document.getElementById('wellnessLabel').textContent = 'All Good 🟢';
+                    document.getElementById('wellnessNote').textContent = 'Keep checking in 💛';
+                }
+                renderAlerts(alerts);
+            } catch (e) {
+                renderAlerts([]);
+            }
+        }
+
+        function renderAlerts(alerts) {
+            const c = document.getElementById('alertsContainer');
+            if (!alerts.length) {
+                c.innerHTML = '<div class="dash-empty">No alerts generated yet. The system monitors patterns across conversations before generating one.</div>';
+                return;
+            }
+            c.innerHTML = alerts.slice(0, 5).map(a => `
+      <div class="alert-item ${a.severity === 'high' ? 'a-high' : 'a-med'}">
+        <span>${a.severity === 'high' ? '🔴' : '🟡'}</span>
+        <div>
+          <div style="font-weight:700;font-size:.875rem">${a.severity === 'high' ? 'High Concern' : 'Moderate Concern'} Alert</div>
+          <div style="font-size:.8rem;opacity:.8">${a.details || ''}</div>
+          <div style="font-size:.74rem;opacity:.6;margin-top:3px">${new Date(a.created_at * 1000).toLocaleString()} · Status: <strong>${a.sent_status}</strong></div>
+        </div>
+      </div>`).join('');
+        }
+
+        // ── LOGOUT ───────────────────────────────────────────────────────
+        function logout() {
+            localStorage.removeItem('nc_token');
+            localStorage.removeItem('nc_user');
+            window.location.href = 'login.html';
+        }
+
+        // ── BOOT ─────────────────────────────────────────────────────────
+        loadUser();
+    </script>
+</body>
+
+</html>

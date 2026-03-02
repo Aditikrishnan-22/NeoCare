@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoCare — Mother Care</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --rose: #c4736a;
+      --rose-d: #a85c54;
+      --rose-l: #e8a49e;
+      --rose-pale: #f9ece9;
+      --rose-soft: #f2dbd8;
+      --sage: #7a9e82;
+      --sage-pale: #edf4ee;
+      --ink: #2c1f1a;
+      --mid: #7a5e58;
+      --soft: #b09893;
+      --cream: #fdf8f4;
+      --white: #fffbf9;
+      --ok: #5a8f62;
+      --ok-bg: #edf6ee;
+      --warn: #c47b2a;
+      --warn-bg: #fef5e7;
+      --danger: #b8413a;
+      --danger-bg: #fce9e8;
+      --r: 16px;
+      --shadow: 0 2px 20px rgba(44, 31, 26, .08);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: rgba(253, 248, 244, .97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(196, 115, 106, .15);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--rose), var(--rose-d));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 3px 12px rgba(196, 115, 106, .3);
+    }
+
+    .brand-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .brand-text span {
+      color: var(--rose);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+    }
+
+    .nav-links a {
+      padding: 6px 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: .84rem;
+      font-weight: 500;
+      color: var(--mid);
+      transition: all .18s;
+    }
+
+    .nav-links a:hover {
+      background: var(--rose-pale);
+      color: var(--ink);
+    }
+
+    .nav-links a.active {
+      background: var(--rose-soft);
+      color: var(--rose-d);
+      font-weight: 600;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+      animation: fadeUp .5s ease;
+    }
+
+    .page-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--rose-pale);
+      color: var(--rose-d);
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: .8rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: .5rem;
+    }
+
+    .page-header h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .page-header p {
+      color: var(--mid);
+      font-size: .93rem;
+      line-height: 1.75;
+      max-width: 620px;
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(255, 251, 249, .95);
+      border: 1px solid rgba(220, 195, 190, .5);
+      border-radius: var(--r);
+      padding: 1.6rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.3rem;
+      animation: fadeUp .4s ease;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 1.1rem;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+
+    /* FORM */
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: .71rem;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .form-input,
+    .form-select {
+      padding: 9px 13px;
+      border: 1.5px solid rgba(196, 115, 106, .2);
+      border-radius: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      color: var(--ink);
+      background: var(--white);
+      outline: none;
+      transition: border-color .18s, box-shadow .18s;
+      width: 100%;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(196, 115, 106, .12);
+    }
+
+    /* TABS */
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      padding: 9px 22px;
+      border: 1.5px solid rgba(196, 115, 106, .2);
+      border-radius: 12px;
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--mid);
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .tab:hover {
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    .tab.active {
+      background: var(--rose-pale);
+      border-color: var(--rose);
+      color: var(--rose-d);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-rose {
+      background: linear-gradient(135deg, var(--rose), var(--rose-d));
+      color: white;
+      box-shadow: 0 4px 16px rgba(196, 115, 106, .3);
+    }
+
+    .btn-rose:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196, 115, 106, .38);
+    }
+
+    .btn-ghost {
+      background: var(--rose-pale);
+      color: var(--rose-d);
+      border: 1.5px solid rgba(196, 115, 106, .2);
+    }
+
+    .btn-ghost:hover {
+      background: var(--rose-soft);
+    }
+
+    .btn-sm {
+      padding: 6px 15px;
+      font-size: .8rem;
+    }
+
+    /* ALERTS */
+    .alert {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: .9rem 1.1rem;
+      border-radius: 11px;
+      font-size: .855rem;
+      line-height: 1.7;
+      margin-bottom: .9rem;
+      border: 1px solid;
+    }
+
+    .alert-info {
+      background: #eef4fc;
+      border-color: rgba(90, 143, 192, .3);
+      color: #244a70;
+    }
+
+    .alert-ok {
+      background: var(--ok-bg);
+      border-color: rgba(90, 143, 90, .3);
+      color: #2d5a2d;
+    }
+
+    .alert-warn {
+      background: var(--warn-bg);
+      border-color: rgba(196, 123, 42, .3);
+      color: #7a4a10;
+    }
+
+    .alert-danger {
+      background: var(--danger-bg);
+      border-color: rgba(184, 65, 58, .3);
+      color: #6a1a18;
+    }
+
+    .alert.toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      max-width: 320px;
+      animation: fadeUp .4s ease;
+    }
+
+    /* SPINNER */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(196, 115, 106, .3);
+      border-top-color: var(--rose);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* CHAT LAYOUT */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar-card {
+      background: rgba(255, 251, 249, .95);
+      border: 1px solid rgba(220, 195, 190, .4);
+      border-radius: 14px;
+      padding: 1.1rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: .8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .quick-btn {
+      padding: 8px 12px;
+      border: 1.5px solid rgba(196, 115, 106, .15);
+      border-radius: 10px;
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--mid);
+      cursor: pointer;
+      transition: all .15s;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .quick-btn:hover {
+      background: var(--rose-pale);
+      border-color: var(--rose);
+      color: var(--rose-d);
+    }
+
+    /* WELLNESS */
+    .wellness-sub {
+      font-size: .72rem;
+      color: var(--soft);
+      margin-bottom: 7px;
+    }
+
+    .risk-label {
+      font-size: .73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .risk-bar-track {
+      height: 6px;
+      background: rgba(196, 115, 106, .1);
+      border-radius: 100px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width .9s ease, background .5s;
+    }
+
+    .risk-note {
+      font-size: .72rem;
+      color: var(--soft);
+      margin-top: 5px;
+    }
+
+    .wellness-privacy {
+      font-size: .71rem;
+      color: var(--soft);
+      margin-top: 10px;
+      padding-top: 9px;
+      border-top: 1px solid rgba(220, 195, 190, .35);
+      line-height: 1.65;
+    }
+
+    /* CHAT WINDOW */
+    .chat-window {
+      background: rgba(255, 251, 249, .97);
+      border: 1px solid rgba(220, 195, 190, .5);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      height: 540px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--rose-l);
+      border-radius: 100px;
+    }
+
+    /* BUBBLES */
+    .msg {
+      display: flex;
+      gap: 9px;
+      max-width: 90%;
+      animation: fadeUp .3s ease;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .msg.bot .msg-avatar {
+      background: linear-gradient(135deg, var(--rose-pale), var(--sage-pale));
+      border: 1.5px solid rgba(196, 115, 106, .2);
+    }
+
+    .msg.user .msg-avatar {
+      background: var(--sage-pale);
+      border: 1.5px solid rgba(122, 158, 130, .2);
+    }
+
+    .msg-bubble {
+      padding: .8rem 1.1rem;
+      border-radius: 15px;
+      font-size: .875rem;
+      line-height: 1.8;
+    }
+
+    .msg.bot .msg-bubble {
+      background: var(--white);
+      border: 1px solid rgba(220, 195, 190, .5);
+      border-bottom-left-radius: 3px;
+    }
+
+    .msg.user .msg-bubble {
+      background: linear-gradient(135deg, var(--rose), var(--rose-d));
+      color: white;
+      border-bottom-right-radius: 3px;
+    }
+
+    .msg-bubble ul {
+      padding-left: 1.2rem;
+      margin: .4rem 0;
+    }
+
+    .msg-bubble li {
+      margin-bottom: 3px;
+    }
+
+    .seek-help {
+      margin-top: .65rem;
+      padding: .55rem .9rem;
+      background: rgba(184, 65, 58, .07);
+      border-left: 3px solid var(--danger);
+      border-radius: 0 9px 9px 0;
+      font-size: .81rem;
+      color: #6a1a18;
+      line-height: 1.65;
+    }
+
+    .emergency-block {
+      margin-top: .65rem;
+      padding: .65rem .9rem;
+      background: rgba(184, 65, 58, .1);
+      border: 1.5px solid var(--danger);
+      border-radius: 9px;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--danger);
+      line-height: 1.7;
+    }
+
+    /* EMERGENCY BANNER — hidden by default, JS shows it */
+    .emergency-banner {
+      background: var(--danger-bg);
+      border-top: 2.5px solid var(--danger);
+      padding: .8rem 1.2rem;
+      font-size: .83rem;
+      font-weight: 700;
+      color: #6a1a18;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* CHAT INPUT */
+    .chat-input-row {
+      border-top: 1px solid rgba(220, 195, 190, .35);
+      padding: .85rem 1rem;
+      display: flex;
+      gap: 8px;
+      background: rgba(253, 248, 244, .9);
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 9px 14px;
+      border: 1.5px solid rgba(196, 115, 106, .2);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      color: var(--ink);
+      background: var(--white);
+      outline: none;
+      resize: none;
+      max-height: 110px;
+      transition: border-color .18s;
+      line-height: 1.5;
+    }
+
+    .chat-input:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(196, 115, 106, .1);
+    }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--rose), var(--rose-d));
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+      transition: all .2s;
+      box-shadow: 0 3px 12px rgba(196, 115, 106, .25);
+    }
+
+    .send-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .send-btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* TYPING */
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 14px;
+      background: var(--white);
+      border: 1px solid rgba(220, 195, 190, .5);
+      border-radius: 15px;
+      border-bottom-left-radius: 3px;
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--rose-l);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: .2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: .4s;
+    }
+
+    .disclaimer {
+      font-size: .73rem;
+      color: var(--soft);
+      margin-top: .5rem;
+      line-height: 1.65;
+    }
+
+    /* EPDS */
+    .epds-q {
+      background: var(--white);
+      border: 1.5px solid rgba(220, 195, 190, .4);
+      border-radius: 13px;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: .9rem;
+    }
+
+    .epds-qtext {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: .7rem;
+      line-height: 1.5;
+    }
+
+    .epds-critical {
+      color: var(--danger);
+      font-size: .79rem;
+      font-weight: 400;
+    }
+
+    .epds-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .epds-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 11px;
+      border-radius: 9px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all .14s;
+      font-size: .835rem;
+      color: var(--mid);
+    }
+
+    .epds-opt:hover {
+      background: var(--rose-pale);
+      border-color: rgba(196, 115, 106, .2);
+    }
+
+    .epds-opt.sel {
+      background: var(--rose-pale);
+      border-color: var(--rose);
+      color: var(--rose-d);
+      font-weight: 600;
+    }
+
+    .epds-opt input {
+      accent-color: var(--rose);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .score-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      flex-shrink: 0;
+      border: 4px solid;
+    }
+
+    .score-num {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .score-sub {
+      font-size: .6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-top: 2px;
+    }
+
+    .epds-guidance {
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      border-left: 4px solid;
+      font-size: .875rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .epds-disclaimer {
+      font-size: .73rem;
+      color: var(--soft);
+      margin-top: 1rem;
+      line-height: 1.65;
+    }
+
+    /* DASHBOARD */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .summary-tile {
+      border-radius: 13px;
+      padding: 1.1rem;
+    }
+
+    .tile-label {
+      font-size: .69rem;
+      font-weight: 700;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 4px;
+    }
+
+    .tile-value {
+      font-size: .98rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .tile-sub {
+      font-size: .76rem;
+      color: var(--soft);
+      margin-top: 3px;
+    }
+
+    .alert-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: .85rem 1rem;
+      border-radius: 11px;
+      font-size: .85rem;
+      line-height: 1.65;
+      margin-bottom: 8px;
+      border: 1px solid;
+    }
+
+    .a-high {
+      background: var(--danger-bg);
+      border-color: rgba(184, 65, 58, .2);
+    }
+
+    .a-med {
+      background: var(--warn-bg);
+      border-color: rgba(196, 123, 42, .2);
+    }
+
+    .dash-privacy {
+      margin-top: 1.1rem;
+      padding: 1rem 1.2rem;
+      background: var(--sage-pale);
+      border-radius: 12px;
+      font-size: .84rem;
+      color: #2d5a2d;
+      line-height: 1.8;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 1.6rem;
+      font-size: .76rem;
+      color: var(--soft);
+      border-top: 1px solid rgba(220, 195, 190, .35);
+    }
+
+    footer a {
+      color: var(--rose);
+      text-decoration: none;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0)
+      }
+
+      30% {
+        transform: translateY(-5px)
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:720px) {
+      .chat-layout {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:600px) {
+      .nav-inner {
+        flex-direction: column;
+        height: auto;
+        padding: .8rem 0;
+        gap: .6rem
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center
+      }
+
+      .page {
+        padding: 1.5rem 1rem 3rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <div class="brand-mark">🌿</div>
+        <span class="brand-text">Neo<span>Care</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="/">🏠 Home</a>
+        <a href="/growth.html">📏 Growth</a>
+        <a href="/milestones.html">🧠 Milestones</a>
+        <a href="/postpartum.html" class="active">💚 Postpartum</a>
+        <a href="/dashboard.html">👤 Dashboard</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:.82rem;font-weight:600;color:var(--ink)" id="navUserName"></span>
+        <button onclick="doLogout()"
+          style="padding:5px 13px;border-radius:9px;background:var(--rose-pale);border:1.5px solid rgba(196,115,106,.2);color:var(--rose-d);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit"
+          id="logoutBtn" style="display:none">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="page-header">
+      <div class="page-tag">💚 Module 3</div>
+      <h1><em>Mother</em> Care Assistant</h1>
+      <p>A safe, compassionate space for your postpartum journey — breastfeeding, recovery, nutrition, newborn care, and
+        emotional wellbeing.</p>
+    </div>
+
+    <!-- PROFILE — auto-filled from user account -->
+    <!-- LOGGED-IN USER BANNER -->
+    <div id="profileBanner" class="card" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div
+          style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--rose-pale),var(--sage-pale));border:2px solid rgba(196,115,106,.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">
+          👩</div>
+        <div style="flex:1">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink)"
+            id="bannerName">Loading…</div>
+          <div style="font-size:.8rem;color:var(--soft);margin-top:2px" id="bannerDetails"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:.78rem;color:var(--ok);font-weight:600">✓ Profile loaded from your account</span>
+          <button onclick="NC.toggleGuestMode()" id="guestToggleBtn"
+            style="padding:5px 13px;border-radius:9px;background:var(--rose-pale);border:1.5px solid rgba(196,115,106,.2);color:var(--rose-d);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit">Using
+            for someone else?</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUEST / OVERRIDE FORM (hidden by default when logged in) -->
+    <div id="profileCard" class="card" style="display:none">
+      <div class="card-title">
+        <div class="card-icon" style="background:var(--sage-pale)">👩</div>
+        <div>
+          <span id="profileCardTitle">Mother Profile</span>
+          <span style="font-size:.73rem;font-weight:400;color:var(--soft);margin-left:6px">— helps give personalised
+            answers</span>
+        </div>
+        <button onclick="NC.cancelGuestMode()" id="cancelGuestBtn"
+          style="margin-left:auto;padding:4px 12px;border-radius:8px;background:transparent;border:1.5px solid rgba(196,115,106,.2);color:var(--mid);font-size:.75rem;cursor:pointer;font-family:inherit;display:none">✕
+          Back to my profile</button>
+      </div>
+
+      <!-- Guest name row (only shown in guest mode) -->
+      <div id="guestNameRow" class="form-row" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Person's Name</label>
+          <input type="text" id="guestPersonName" class="form-input" placeholder="e.g. Sister's name" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Baby Age (weeks)</label><input type="number" id="babyAge"
+            class="form-input" placeholder="e.g. 4" min="0" max="52" /></div>
+        <div class="form-group"><label class="form-label">Delivery Type</label>
+          <select id="deliveryType" class="form-select">
+            <option value="vaginal">Vaginal</option>
+            <option value="c-section">C-Section</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Breastfeeding</label>
+          <select id="bfStatus" class="form-select">
+            <option value="exclusive">Yes — exclusively</option>
+            <option value="mixed">Yes — mixed</option>
+            <option value="formula">Formula only</option>
+            <option value="no">Not breastfeeding</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" id="partnerRow">
+        <div class="form-group"><label class="form-label">Guardian / Partner Name</label><input type="text"
+            id="guardianName" class="form-input" placeholder="e.g. Rahul" /></div>
+        <div class="form-group"><label class="form-label">Guardian Email</label><input type="email" id="guardianEmail"
+            class="form-input" placeholder="partner@email.com" /></div>
+        <div class="form-group"><label class="form-label">Guardian Phone</label><input type="tel" id="guardianPhone"
+            class="form-input" placeholder="+91 98765 43210" /></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.3rem">
+        <label style="display:flex;align-items:center;gap:9px;font-size:.87rem;color:var(--ink);cursor:pointer">
+          <input type="checkbox" id="alertConsent" style="width:15px;height:15px;accent-color:var(--rose)" checked />
+          Enable wellness alerts to guardian if distress is consistently detected
+        </label>
+        <button class="btn btn-ghost btn-sm" onclick="NC.saveProfile()">💾 Save</button>
+        <span id="profileSaved" style="font-size:.8rem;color:var(--ok);display:none">✓ Saved!</span>
+      </div>
+    </div>
+
+    <!-- Hidden inputs to store logged-in user values when in banner mode -->
+    <input type="hidden" id="motherName" value="" />
+    <input type="hidden" id="guardianNameHidden" value="" />
+    <input type="hidden" id="guardianEmailHidden" value="" />
+    <input type="hidden" id="guardianPhoneHidden" value="" />
+
+    <!-- TABS -->
+    <div class="tab-row">
+      <button class="tab active" onclick="NC.switchTab('chat',this)">💬 Care Chat</button>
+      <button class="tab" onclick="NC.switchTab('ppd', this)">🧪 PPD Self-Check (EPDS)</button>
+      <button class="tab" onclick="NC.switchTab('dash',this)">📊 Guardian Dashboard</button>
+    </div>
+
+    <!-- ══ CHAT ══ -->
+    <div id="panel_chat" class="tab-panel active">
+      <div class="chat-layout">
+
+        <!-- Sidebar -->
+        <div>
+          <div class="sidebar-card">
+            <div class="sidebar-title">⚡ Quick Topics</div>
+            <div class="quick-btns">
+              <button class="quick-btn"
+                onclick="NC.quickSend('I am having trouble breastfeeding. My baby is not latching properly and it is very painful.')">🤱
+                Breastfeeding &amp; latch</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('My breast milk supply seems low. What can I do to produce more milk?')">🍼 Low
+                milk supply</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('What should I eat after delivery to recover faster and produce good breast milk?')">🥗
+                Postpartum nutrition</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('I am having pain and unusual discharge after my delivery. What is normal?')">💊
+                Recovery &amp; pain</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('My baby keeps crying and I do not know why. How do I soothe my baby?')">😢 Baby
+                crying &amp; soothing</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('My baby has yellow skin and eyes. Should I worry about jaundice?')">👶 Baby
+                jaundice</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('I feel very sad, overwhelmed and like I am not a good mother. I keep crying every day.')">💔
+                Feeling sad / anxious</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('I feel completely alone since the baby was born. No one understands what I am going through.')">🫂
+                Feeling alone</button>
+              <button class="quick-btn"
+                onclick="NC.quickSend('My baby is not feeding well and seems very sleepy and weak.')">🚨 Baby feeding
+                concern</button>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-title">💚 Wellness Meter</div>
+            <div class="wellness-sub">Based on your conversation</div>
+            <div class="risk-label" id="riskLabel" style="color:var(--ok)">All Good 🟢</div>
+            <div class="risk-bar-track">
+              <div class="risk-bar-fill" id="riskBar" style="width:4%;background:var(--ok)"></div>
+            </div>
+            <div class="risk-note" id="riskNote">Keep checking in 💛</div>
+            <div class="wellness-privacy">🔒 Only wellness signals tracked — no messages shared</div>
+          </div>
+        </div>
+
+        <!-- Chat main -->
+        <div>
+          <div class="chat-window">
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg bot">
+                <div class="msg-avatar">🌿</div>
+                <div class="msg-bubble">
+                  <strong>Hello, and welcome to NeoCare 💚</strong><br /><br />
+                  I'm here to support you through your postpartum journey — whether it's about breastfeeding, your
+                  recovery, your baby, nutrition, or just how you're feeling today.<br /><br />
+                  <em>You can ask me anything. What's on your mind?</em>
+                </div>
+              </div>
+            </div>
+
+            <!-- hidden by default — JS sets display:flex only on emergency -->
+            <div class="emergency-banner" id="emergencyBanner">
+              🚨 <span>Please seek emergency medical help NOW — call <strong>108</strong>. Mental health: iCall
+                <strong>9152987821</strong></span>
+            </div>
+
+            <div class="chat-input-row">
+              <textarea class="chat-input" id="chatInput" rows="1" placeholder="Type your question… (Enter to send)"
+                onkeydown="NC.handleKey(event)" oninput="NC.autoResize(this)"></textarea>
+              <button class="send-btn" id="sendBtn" onclick="NC.sendMessage()" title="Send">➤</button>
+            </div>
+          </div>
+          <p class="disclaimer">⚠️ NeoCare is a support tool, not a substitute for professional medical advice. Always
+            consult your doctor for medical decisions.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ EPDS ══ -->
+    <div id="panel_ppd" class="tab-panel">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon" style="background:var(--rose-pale)">🧪</div>Edinburgh Postnatal Depression Scale (EPDS)
+        </div>
+        <div class="alert alert-info">
+          <span>ℹ️</span>
+          <div>This voluntary 10-question screening takes about 3 minutes. It is <strong>not a diagnosis</strong>.
+            Choose how you have felt in the <strong>past 7 days</strong>.</div>
+        </div>
+        <div id="epdsForm">
+          <div style="color:var(--soft);font-size:.87rem">Loading questions…</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:.6rem;flex-wrap:wrap">
+          <button class="btn btn-rose" onclick="NC.submitEPDS()">Calculate My Score →</button>
+          <span id="epdsSpinner" style="display:none"><span class="spinner"></span></span>
+        </div>
+      </div>
+      <div id="epdsResult"></div>
+    </div>
+
+    <!-- ══ DASHBOARD ══ -->
+    <div id="panel_dash" class="tab-panel">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon" style="background:var(--sage-pale)">📊</div>Guardian / Partner Dashboard
+        </div>
+        <p style="font-size:.87rem;color:var(--mid);margin-bottom:1rem;line-height:1.75">
+          Wellness alerts are generated when distress patterns are detected — through message trends, EPDS scores, or
+          emergency keywords.
+          <strong>No chat content is ever shared</strong> — only a brief risk summary.
+        </p>
+        <div id="dashboardContent">
+          <div style="color:var(--soft);font-size:.87rem">Click the Dashboard tab to load.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div>🌿 NeoCare — AI-powered postpartum support · For guidance only · Always consult a healthcare professional</div>
+    <div style="font-size:.7rem;margin-top:4px">Crisis support: iCall <strong>9152987821</strong> · Vandrevala
+      <strong>1860-2662-345</strong>
+    </div>
+  </footer>
+
+  <script>
+    // ══════════════════════════════════════════════════
+    //  NeoCare Postpartum — all logic inline
+    //  Talks to FastAPI on port 8000.
+    // ══════════════════════════════════════════════════
+
+    // Logout helper (global scope)
+    function doLogout() {
+      localStorage.removeItem('nc_token');
+      localStorage.removeItem('nc_user');
+      window.location.href = 'login.html';
+    }
+
+    const NC = (() => {
+
+      const API = 'http://127.0.0.1:8000/api';
+
+      // Stable session per browser
+      const SESSION = (() => {
+        let id = localStorage.getItem('nc_sid');
+        if (!id) { id = 'sess_' + Math.random().toString(36).slice(2, 10); localStorage.setItem('nc_sid', id); }
+        return id;
+      })();
+
+      const TOKEN = localStorage.getItem('nc_token');
+      let USER = null;          // logged-in user object
+      let guestMode = false;    // true when "Using for someone else"
+      let epdsAnswers = {};
+
+      // ════════════════════════
+      //  INIT
+      // ════════════════════════
+      async function init() {
+        // Hide emergency banner on load
+        const b = document.getElementById('emergencyBanner');
+        if (b) b.style.display = 'none';
+
+        // Try to load logged-in user
+        if (TOKEN) {
+          try {
+            const res = await fetch(`${API}/auth/me?token=${TOKEN}`);
+            if (res.ok) {
+              const data = await res.json();
+              USER = data.user;
+              populateFromUser(USER);
+            } else {
+              showGuestForm();
+            }
+          } catch (e) {
+            showGuestForm();
+          }
+        } else {
+          // Not logged in — show compact guest form
+          showGuestForm();
+        }
+
+        loadEPDS();
+      }
+
+      // ────────────────────────────────────────
+      // Populate everything from logged-in USER
+      // ────────────────────────────────────────
+      function populateFromUser(u) {
+        // Show nav info
+        const navEl = document.getElementById('navUserName');
+        if (navEl) navEl.textContent = u.full_name ? '👩 ' + u.full_name.split(' ')[0] : '';
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+
+        // Set hidden mother name
+        document.getElementById('motherName').value = u.full_name || '';
+
+        // Set hidden partner/guardian from user account
+        document.getElementById('guardianNameHidden').value = u.partner_name || '';
+        document.getElementById('guardianEmailHidden').value = u.partner_email || '';
+        document.getElementById('guardianPhoneHidden').value = u.partner_phone || '';
+
+        // Compute baby age in weeks from DOB
+        if (u.baby_dob) {
+          const weeks = Math.round((Date.now() - new Date(u.baby_dob).getTime()) / 604800000);
+          document.getElementById('babyAge') && (document.getElementById('babyAge').value = Math.max(0, weeks));
+        }
+        // Set delivery & bf in the hidden form too
+        const dtEl = document.getElementById('deliveryType');
+        if (dtEl && u.delivery_type) dtEl.value = u.delivery_type;
+        const bfEl = document.getElementById('bfStatus');
+        if (bfEl && u.bf_status) bfEl.value = u.bf_status;
+        if (u.alert_consent !== undefined) {
+          const acEl = document.getElementById('alertConsent');
+          if (acEl) acEl.checked = u.alert_consent !== false;
+        }
+
+        // Show the banner, hide profile card
+        document.getElementById('profileBanner').style.display = 'block';
+        document.getElementById('profileCard').style.display = 'none';
+
+        // Fill banner text
+        document.getElementById('bannerName').textContent = u.full_name || 'You';
+        const detailParts = [];
+        if (u.delivery_type) detailParts.push(u.delivery_type === 'c-section' ? 'C-Section' : 'Vaginal delivery');
+        const bfMap = { exclusive: 'Breastfeeding exclusively', mixed: 'Mixed feeding', formula: 'Formula only', no: 'Not breastfeeding' };
+        if (u.bf_status) detailParts.push(bfMap[u.bf_status] || '');
+        if (u.partner_name) detailParts.push(`Guardian: ${u.partner_name}`);
+        document.getElementById('bannerDetails').textContent = detailParts.join(' · ');
+
+        // Sync to partner-setup in postpartum session
+        if (u.partner_name || u.partner_email) {
+          fetch(`${API}/partner-setup`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              session: SESSION,
+              partner: {
+                name: u.partner_name,
+                email: u.partner_email,
+                phone: u.partner_phone,
+                consent: u.alert_consent !== false,
+              }
+            }),
+          }).catch(() => { });
+        }
+      }
+
+      function showGuestForm() {
+        // No token or token invalid — show full profile form
+        document.getElementById('profileBanner').style.display = 'none';
+        document.getElementById('profileCard').style.display = 'block';
+        document.getElementById('guestNameRow').style.display = 'block'; // show name row for guests
+        // Restore from localStorage
+        try {
+          const p = JSON.parse(localStorage.getItem('nc_profile') || '{}');
+          if (p.baby_age_weeks) document.getElementById('babyAge').value = p.baby_age_weeks;
+          if (p.delivery_type) document.getElementById('deliveryType').value = p.delivery_type;
+          if (p.bf_status) document.getElementById('bfStatus').value = p.bf_status;
+          if (p.partner) {
+            if (p.partner.name) document.getElementById('guardianName').value = p.partner.name;
+            if (p.partner.email) document.getElementById('guardianEmail').value = p.partner.email;
+            if (p.partner.phone) document.getElementById('guardianPhone').value = p.partner.phone;
+            document.getElementById('alertConsent').checked = p.partner.consent !== false;
+          }
+        } catch (e) { }
+      }
+
+      function toggleGuestMode() {
+        guestMode = true;
+        document.getElementById('profileBanner').style.display = 'none';
+        document.getElementById('profileCard').style.display = 'block';
+        document.getElementById('guestNameRow').style.display = 'block';
+        document.getElementById('cancelGuestBtn').style.display = 'inline-block';
+        document.getElementById('profileCardTitle').textContent = 'Using for Someone Else';
+        // Clear the user's values so they're not pre-filled
+        document.getElementById('babyAge').value = '';
+        document.getElementById('guardianName') && (document.getElementById('guardianName').value = '');
+        document.getElementById('guardianEmail') && (document.getElementById('guardianEmail').value = '');
+        document.getElementById('guardianPhone') && (document.getElementById('guardianPhone').value = '');
+      }
+
+      function cancelGuestMode() {
+        guestMode = false;
+        if (USER) populateFromUser(USER);
+        else showGuestForm();
+      }
+
+      // ════════════════════════
+      //  PROFILE
+      // ════════════════════════
+      function getProfile() {
+        // When logged in and NOT in guest mode, use saved user data
+        if (USER && !guestMode) {
+          return {
+            mother_name: USER.full_name || null,
+            baby_age_weeks: USER.baby_dob
+              ? Math.max(0, Math.round((Date.now() - new Date(USER.baby_dob).getTime()) / 604800000))
+              : (parseInt(document.getElementById('babyAge')?.value) || null),
+            delivery_type: USER.delivery_type || 'vaginal',
+            bf_status: USER.bf_status || 'exclusive',
+          };
+        }
+        // Guest mode or not logged in
+        const guestName = document.getElementById('guestPersonName')?.value.trim();
+        return {
+          mother_name: guestName || document.getElementById('motherName').value.trim() || null,
+          baby_age_weeks: parseInt(document.getElementById('babyAge')?.value) || null,
+          delivery_type: document.getElementById('deliveryType')?.value || 'vaginal',
+          bf_status: document.getElementById('bfStatus')?.value || 'exclusive',
+        };
+      }
+
+      function getPartner() {
+        if (USER && !guestMode) {
+          return {
+            name: USER.partner_name || null,
+            email: USER.partner_email || null,
+            phone: USER.partner_phone || null,
+            consent: USER.alert_consent !== false,
+          };
+        }
+        // Guest / not-logged-in
+        return {
+          name: document.getElementById('guardianName')?.value.trim() || null,
+          email: document.getElementById('guardianEmail')?.value.trim() || null,
+          phone: document.getElementById('guardianPhone')?.value.trim() || null,
+          consent: document.getElementById('alertConsent')?.checked !== false,
+        };
+      }
+
+      function saveProfile() {
+        const profile = getProfile();
+        const partner = getPartner();
+        localStorage.setItem('nc_profile', JSON.stringify({ ...profile, partner }));
+        fetch(`${API}/partner-setup`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session: SESSION, partner }),
+        }).catch(() => { });
+        const el = document.getElementById('profileSaved');
+        if (el) { el.style.display = 'inline'; setTimeout(() => el.style.display = 'none', 2500); }
+      }
+
+      // ════════════════════════
+      //  TABS
+      // ════════════════════════
+      function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('panel_' + tab).classList.add('active');
+        btn.classList.add('active');
+        if (tab === 'dash') renderDashboard();
+      }
+
+      // ════════════════════════
+      //  CHAT → POST /api/chat
+      // ════════════════════════
+      async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        appendBubble('user', text);
+        input.value = ''; input.style.height = 'auto';
+        document.getElementById('sendBtn').disabled = true;
+        const typingEl = showTyping();
+
+        try {
+          const res = await fetch(`${API}/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session: SESSION, message: text, profile: getProfile() }),
+          });
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || `Server error ${res.status}`);
+          }
+
+          const data = await res.json();
+          typingEl.remove();
+          appendBubble('bot', data.reply, data.is_emergency);
+          if (data.wellness) updateMeter(data.wellness);
+          if (data.is_emergency) showEmergencyBanner();
+          if (data.alert_triggered) showToast('📊 Wellness alert logged for guardian.', 'warn');
+
+        } catch (e) {
+          typingEl.remove();
+          appendBubble('bot',
+            `**Could not reach server**\n\n` +
+            `Make sure FastAPI is running:\n` +
+            `\`python -m uvicorn main:app --reload --port 8000\`\n\n` +
+            `Error: ${e.message}`
+          );
+        }
+        document.getElementById('sendBtn').disabled = false;
+      }
+
+      function quickSend(text) { document.getElementById('chatInput').value = text; sendMessage(); }
+      function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+      function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110) + 'px'; }
+
+      // ════════════════════════
+      //  WELLNESS METER
+      // ════════════════════════
+      function updateMeter(w) {
+        const bar = document.getElementById('riskBar');
+        const lbl = document.getElementById('riskLabel');
+        const note = document.getElementById('riskNote');
+        bar.style.width = Math.max(4, w.score) + '%';
+        if (w.level === 'high') {
+          bar.style.background = 'var(--danger)'; lbl.style.color = 'var(--danger)';
+          lbl.textContent = 'High Concern 🔴'; note.textContent = 'Persistent distress detected';
+        } else if (w.level === 'medium') {
+          bar.style.background = 'var(--warn)'; lbl.style.color = 'var(--warn)';
+          lbl.textContent = 'Monitor 🟡'; note.textContent = 'Some distress signals noticed';
+        } else {
+          bar.style.background = 'var(--ok)'; lbl.style.color = 'var(--ok)';
+          lbl.textContent = 'All Good 🟢'; note.textContent = 'Keep checking in 💛';
+        }
+      }
+
+      function showEmergencyBanner() {
+        const b = document.getElementById('emergencyBanner');
+        b.style.display = 'flex';
+        setTimeout(() => b.style.display = 'none', 30000);
+      }
+
+      // ════════════════════════
+      //  BUBBLES
+      // ════════════════════════
+      function appendBubble(role, text, emergency = false) {
+        const wrap = document.createElement('div');
+        wrap.className = `msg ${role}`;
+        const av = document.createElement('div');
+        av.className = 'msg-avatar'; av.textContent = role === 'bot' ? '🌿' : '👩';
+        const bub = document.createElement('div');
+        bub.className = 'msg-bubble';
+        bub.innerHTML = renderMD(text);
+        if (emergency && role === 'bot') {
+          const e = document.createElement('div');
+          e.className = 'emergency-block';
+          e.innerHTML = '🚨 <strong>Emergency signs detected.</strong><br/>Call <strong>108</strong> now or go to the nearest hospital.<br/>Mental health: iCall <strong>9152987821</strong>';
+          bub.appendChild(e);
+        }
+        wrap.appendChild(av); wrap.appendChild(bub);
+        const msgs = document.getElementById('chatMessages');
+        msgs.appendChild(wrap); msgs.scrollTop = msgs.scrollHeight;
+        return wrap;
+      }
+
+      function showTyping() {
+        const msgs = document.getElementById('chatMessages');
+        const w = document.createElement('div');
+        w.className = 'msg bot';
+        w.innerHTML = `<div class="msg-avatar">🌿</div><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+        msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
+        return w;
+      }
+
+      function renderMD(t) {
+        return t
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/^#{1,3} (.+)$/gm, '<strong>$1</strong>')
+          .replace(/^[•\-]\s(.+)$/gm, '<li>$1</li>')
+          .replace(/(<li>[\s\S]*?<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
+          .replace(/🏥 \*\*Seek help if:\*\*(.*?)(?=\n\n|\n[A-Z*🎯💚]|$)/gs, '<div class="seek-help">🏥 <strong>Seek help if:</strong>$1</div>')
+          .replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>');
+      }
+
+      function showToast(msg, type = 'warn') {
+        const n = document.createElement('div');
+        n.className = `alert alert-${type} toast`;
+        n.innerHTML = `<span>📊</span><div>${msg}</div>`;
+        document.body.appendChild(n);
+        setTimeout(() => n.remove(), 6000);
+      }
+
+      // ════════════════════════
+      //  EPDS
+      // ════════════════════════
+      async function loadEPDS() {
+        try {
+          const res = await fetch(`${API}/ppd-screening/questions`);
+          const data = await res.json();
+          renderEPDSForm(data.questions);
+        } catch (e) {
+          document.getElementById('epdsForm').innerHTML =
+            '<div class="alert alert-warn"><span>⚠️</span><div>Could not load questions — is the server running on port 8001?</div></div>';
+        }
+      }
+
+      function renderEPDSForm(questions) {
+        const form = document.getElementById('epdsForm');
+        form.innerHTML = '';
+        questions.forEach((item, qi) => {
+          const div = document.createElement('div');
+          div.className = 'epds-q';
+          div.innerHTML =
+            `<div class="epds-qtext">${qi + 1}. ${item.q}${item.critical ? ' <span class="epds-critical">(Crisis check question)</span>' : ''}</div>` +
+            `<div class="epds-opts">${item.opts.map((o, oi) =>
+              `<label class="epds-opt" id="eopt_${qi}_${oi}"><input type="radio" name="eq${qi}" value="${oi}" onchange="NC.selectEPDS(${qi},${oi})"/>${o}</label>`
+            ).join('')}</div>`;
+          form.appendChild(div);
+        });
+      }
+
+      function selectEPDS(qi, oi) {
+        epdsAnswers[qi] = oi;
+        for (let i = 0; i < 4; i++) {
+          const el = document.getElementById(`eopt_${qi}_${i}`);
+          if (el) el.classList.toggle('sel', i === oi);
+        }
+      }
+
+      async function submitEPDS() {
+        if (Object.keys(epdsAnswers).length < 10) { alert('Please answer all 10 questions.'); return; }
+        document.getElementById('epdsSpinner').style.display = 'inline';
+        try {
+          const res = await fetch(`${API}/ppd-screening`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session: SESSION, answers: Object.fromEntries(Object.entries(epdsAnswers).map(([k, v]) => [String(k), v])) }),
+          });
+          if (!res.ok) throw new Error(`Server error ${res.status}`);
+          const data = await res.json();
+          renderEPDSResult(data);
+          if (data.wellness) updateMeter(data.wellness);
+        } catch (e) {
+          alert('Could not submit — make sure the FastAPI server is running on port 8001.');
+        }
+        document.getElementById('epdsSpinner').style.display = 'none';
+      }
+
+      function renderEPDSResult(d) {
+        const C = {
+          low: { border: 'var(--ok)', bg: 'var(--ok-bg)', text: '#2d5a2d' },
+          medium: { border: 'var(--warn)', bg: 'var(--warn-bg)', text: '#7a4a10' },
+          high: { border: 'var(--danger)', bg: 'var(--danger-bg)', text: '#6a1a18' },
+        };
+        const c = C[d.level];
+        const emoji = d.level === 'low' ? '🟢' : d.level === 'medium' ? '🟡' : '🔴';
+        const label = d.level === 'low' ? 'Low Concern' : d.level === 'medium' ? 'Moderate — Monitor' : 'High — Please Seek Support';
+        document.getElementById('epdsResult').innerHTML = `
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.2rem">
+          <div class="score-circle" style="border-color:${c.border};color:${c.text}">
+            <span class="score-num">${d.score}</span><span class="score-sub">/ 30</span>
+          </div>
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink)">${emoji} ${label}</div>
+            <div style="font-size:.78rem;color:var(--soft);margin-top:3px">EPDS Score ${d.score}/30</div>
+            ${d.crisis ? `<div style="font-size:.79rem;color:var(--danger);font-weight:700;margin-top:4px">⚠️ Q10 response requires immediate attention</div>` : ''}
+            ${d.alert_triggered ? `<div style="font-size:.79rem;color:var(--warn);font-weight:600;margin-top:4px">📊 Wellness alert sent to guardian</div>` : ''}
+          </div>
+        </div>
+        <div class="epds-guidance" style="border-left-color:${c.border};background:${c.bg};color:${c.text}">${d.guidance}</div>
+        ${d.resources && d.resources.length ? `<div class="alert alert-danger"><span>🚨</span><div><strong>Please reach out for support right now:</strong><br/>${d.resources.map(r => `📞 ${r.name}: <strong>${r.number}</strong> (${r.hours})`).join('<br/>')}</div></div>` : ''}
+        <div style="display:flex;gap:8px;margin-top:.6rem">
+          <button class="btn btn-rose btn-sm" onclick="NC.chatAboutEPDS(${d.score})">💬 Talk to NeoCare about this</button>
+        </div>
+        <div class="epds-disclaimer">⚠️ EPDS is a screening tool — not a clinical diagnosis. Please speak with your healthcare provider for a full assessment.</div>
+      </div>`;
+      }
+
+      function chatAboutEPDS(score) {
+        switchTab('chat', document.querySelectorAll('.tab')[0]);
+        document.getElementById('chatInput').value = `I just completed the EPDS self-test and got a score of ${score}/30. Can you help me understand what this means and what I should do next?`;
+        sendMessage();
+      }
+
+      // ════════════════════════
+      //  DASHBOARD
+      // ════════════════════════
+      async function renderDashboard() {
+        const el = document.getElementById('dashboardContent');
+        el.innerHTML = '<div style="color:var(--soft);font-size:.87rem">Loading…</div>';
+        try {
+          const [stateRes, alertsRes] = await Promise.all([
+            fetch(`${API}/chat-state?session=${SESSION}`),
+            fetch(`${API}/alerts?session=${SESSION}`),
+          ]);
+          const state = await stateRes.json();
+          const alerts = (await alertsRes.json()).alerts || [];
+          const partner = getPartner();
+          const gName = partner.name || 'Not set';
+          const gEmail = partner.email || 'Not set';
+          const consent = partner.consent !== false;
+          const w = state.wellness || { label: '🟢 All Good', score: 0 };
+
+          const alertsHtml = !alerts.length
+            ? `<div style="color:var(--soft);font-size:.875rem;padding:.5rem 0">No alerts yet. The system monitors patterns across multiple messages before generating one.</div>`
+            : alerts.map(a => `
+          <div class="alert-item ${a.severity === 'high' ? 'a-high' : 'a-med'}">
+            <span style="font-size:1.1rem">${a.severity === 'high' ? '🔴' : '🟡'}</span>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:.875rem;margin-bottom:2px">${a.severity === 'high' ? 'High Concern' : 'Moderate Concern'} Alert <span style="font-weight:400;font-size:.74rem;opacity:.65;margin-left:8px">${a.reason}</span></div>
+              <div style="font-size:.81rem;opacity:.85;margin-bottom:4px">${a.details || ''}</div>
+              <div style="font-size:.74rem;opacity:.65;margin-top:4px">${new Date(a.created_at * 1000).toLocaleString()} · To: ${gName} (${gEmail}) · Status: <strong>${a.sent_status}</strong> · ${consent ? '✅ Consent given' : '⚠️ Consent off'}</div>
+            </div>
+          </div>`).join('');
+
+          el.innerHTML = `
+        <div class="summary-grid">
+          <div class="summary-tile" style="background:var(--rose-pale)">
+            <div class="tile-label">Guardian</div>
+            <div class="tile-value">${gName}</div>
+            <div class="tile-sub">${gEmail}</div>
+          </div>
+          <div class="summary-tile" style="background:var(--sage-pale)">
+            <div class="tile-label">Current Wellness</div>
+            <div class="tile-value">${w.label}</div>
+            <div class="tile-sub">Score: ${w.score}/100</div>
+          </div>
+          <div class="summary-tile" style="background:${consent ? 'var(--ok-bg)' : 'var(--danger-bg)'}">
+            <div class="tile-label">Alert Status</div>
+            <div class="tile-value" style="color:${consent ? 'var(--ok)' : 'var(--danger)'}">${consent ? '✅ Enabled' : '❌ Disabled'}</div>
+            <div class="tile-sub">${alerts.length} alert${alerts.length !== 1 ? 's' : ''} generated</div>
+          </div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:.8rem">📋 Alert Log</div>
+        ${alertsHtml}
+        <div class="dash-privacy">🔒 <strong>Privacy:</strong> NeoCare never shares chat messages. Only a brief wellness summary is included in alerts. The mother fully controls alert consent.</div>`;
+        } catch (e) {
+          el.innerHTML = `<div class="alert alert-warn"><span>⚠️</span><div>Could not load dashboard — is the FastAPI server running on port 8001?</div></div>`;
+        }
+      }
+
+      // ════════════════════════
+      //  PUBLIC API
+      // ════════════════════════
+      return { init, saveProfile, toggleGuestMode, cancelGuestMode, switchTab, sendMessage, quickSend, handleKey, autoResize, selectEPDS, submitEPDS, chatAboutEPDS };
+
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => NC.init());
+  </script>
+</body>
+
+</html>
