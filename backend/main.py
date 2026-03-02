@@ -3,9 +3,13 @@ NeoCare — FastAPI Backend
 Run: uvicorn main:app --reload --port 8000
 """
 import hashlib
+import os
 import uuid
 from datetime import datetime, timezone
 from typing import Optional
+
+from dotenv import load_dotenv
+load_dotenv()   # loads .env when running locally; no effect on Render
 
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -249,5 +253,7 @@ async def serve_page(page: str):
 
 
 if __name__ == "__main__":
+    import os
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
