@@ -11,7 +11,7 @@ const NeoCarePostpartum = (() => {
   // ════════════════════════════════════════
   //  CONFIG
   // ════════════════════════════════════════
-  const API = 'http://localhost:8000/api';
+  const API = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') ? 'http://127.0.0.1:8000/api' : window.location.origin + '/api';
 
   // Stable session ID per browser
   const SESSION = (() => {

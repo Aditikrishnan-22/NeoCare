@@ -1,7 +1,7 @@
 // ── MILESTONES MODULE JS ─────────────────────────────────────
 // TDSC-based evaluation with Chart.js timeline visualization
 
-const API = 'http://localhost:8001';
+const API = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') ? 'http://127.0.0.1:8000' : window.location.origin;
 const answers = {};
 let loadedMilestones = [];
 
@@ -83,11 +83,11 @@ function setAnswer(id, value) {
 
 // ── EVALUATE ──────────────────────────────────────────────────
 async function evaluate() {
-  const age         = parseFloat(document.getElementById('m_age').value);
-  const sex         = document.getElementById('m_sex').value;
+  const age = parseFloat(document.getElementById('m_age').value);
+  const sex = document.getElementById('m_sex').value;
   const isPremature = document.getElementById('m_premature').value === 'yes';
   const gestational = parseInt(document.getElementById('m_gestational')?.value) || null;
-  const regression  = document.getElementById('m_regression').checked;
+  const regression = document.getElementById('m_regression').checked;
 
   if (Object.keys(answers).length === 0) {
     alert('Please answer at least a few milestone questions before evaluating.'); return;
@@ -117,12 +117,12 @@ function renderResults(data, inputAge) {
   const resultsDiv = document.getElementById('resultsSection');
   resultsDiv.style.display = 'block';
 
-  const domainIcons  = { 'Gross Motor': '🏃', 'Fine Motor': '✋', 'Language': '🗣️', 'Social': '👥' };
+  const domainIcons = { 'Gross Motor': '🏃', 'Fine Motor': '✋', 'Language': '🗣️', 'Social': '👥' };
   const statusConfig = {
-    normal:       { cls: 'dr-normal',  icon: '🟢', label: 'Normal',        labelColor: '#2e7d32' },
-    monitor:      { cls: 'dr-monitor', icon: '🟡', label: 'Monitor',       labelColor: '#7a4a10' },
-    flag:         { cls: 'dr-flag',    icon: '🔴', label: 'Needs Eval.',   labelColor: '#7a1f18' },
-    not_assessed: { cls: 'dr-na',      icon: '⚪', label: 'Not Assessed',  labelColor: '#9e9e9e' }
+    normal: { cls: 'dr-normal', icon: '🟢', label: 'Normal', labelColor: '#2e7d32' },
+    monitor: { cls: 'dr-monitor', icon: '🟡', label: 'Monitor', labelColor: '#7a4a10' },
+    flag: { cls: 'dr-flag', icon: '🔴', label: 'Needs Eval.', labelColor: '#7a1f18' },
+    not_assessed: { cls: 'dr-na', icon: '⚪', label: 'Not Assessed', labelColor: '#9e9e9e' }
   };
 
   let html = '';

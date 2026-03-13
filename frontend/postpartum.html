@@ -1233,7 +1233,7 @@
 
     const NC = (() => {
 
-      const API = 'http://127.0.0.1:8000/api';
+      const API = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') ? 'http://127.0.0.1:8000/api' : window.location.origin + '/api';
 
       // Stable session per browser
       const SESSION = (() => {
@@ -1581,7 +1581,7 @@
           renderEPDSForm(data.questions);
         } catch (e) {
           document.getElementById('epdsForm').innerHTML =
-            '<div class="alert alert-warn"><span>⚠️</span><div>Could not load questions — is the server running on port 8001?</div></div>';
+            '<div class="alert alert-warn"><span>⚠️</span><div>Could not load questions — is the server running on port 8000?</div></div>';
         }
       }
 
@@ -1621,7 +1621,7 @@
           renderEPDSResult(data);
           if (data.wellness) updateMeter(data.wellness);
         } catch (e) {
-          alert('Could not submit — make sure the FastAPI server is running on port 8001.');
+          alert('Could not submit — make sure the FastAPI server is running on port 8000.');
         }
         document.getElementById('epdsSpinner').style.display = 'none';
       }
@@ -1716,7 +1716,7 @@
         ${alertsHtml}
         <div class="dash-privacy">🔒 <strong>Privacy:</strong> NeoCare never shares chat messages. Only a brief wellness summary is included in alerts. The mother fully controls alert consent.</div>`;
         } catch (e) {
-          el.innerHTML = `<div class="alert alert-warn"><span>⚠️</span><div>Could not load dashboard — is the FastAPI server running on port 8001?</div></div>`;
+          el.innerHTML = `<div class="alert alert-warn"><span>⚠️</span><div>Could not load dashboard — is the FastAPI server running on port 8000?</div></div>`;
         }
       }
 

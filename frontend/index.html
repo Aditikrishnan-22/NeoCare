@@ -1264,7 +1264,8 @@
     // Show logged-in user name in nav if token exists
     const token = localStorage.getItem('nc_token');
     if (token) {
-      fetch('http://127.0.0.1:8000/api/auth/me?token=' + token)
+      const apiHost = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') ? 'http://127.0.0.1:8000' : window.location.origin;
+      fetch(apiHost + '/api/auth/me?token=' + token)
         .then(r => r.ok ? r.json() : null)
         .then(d => {
           if (d && d.user) {

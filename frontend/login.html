@@ -659,6 +659,14 @@
                         <span id="loginBtnText">Sign In →</span>
                         <div class="spinner" id="loginSpinner"></div>
                     </button>
+
+                    <div class="divider"><span>OR</span></div>
+
+                    <button class="btn-submit"
+                        style="background: var(--sage); margin-top: 0; box-shadow: 0 5px 18px rgba(90, 143, 98, .3);"
+                        onclick="doGuestLogin()">
+                        <span>Quick Demo Access (Skip) 🌿</span>
+                    </button>
                     <div class="error-msg" id="loginError"></div>
                     <div class="success-msg" id="loginSuccess"></div>
 
@@ -757,7 +765,7 @@
     </div>
 
     <script>
-        const API = 'http://127.0.0.1:8000/api';
+        const API = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') ? 'http://127.0.0.1:8000/api' : window.location.origin + '/api';
 
         // ── TABS ──────────────────────────────────────────────────────────
         function showTab(tab) {
@@ -858,6 +866,43 @@
                 showMsg('regError', '⚠️ ' + e.message);
             }
             setLoading('regBtn', 'regSpinner', false);
+        }
+
+        // ── GUEST ACCESS ──────────────────────────────────────────────────
+        async function doGuestLogin() {
+            setLoading('loginBtn', 'loginSpinner', true);
+            try {
+                // Try to register demo user first
+                let res = await fetch(`${API}/auth/register`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        full_name: "Demo Mother",
+                        email: "demo@neocare.com",
+                        password: "password123",
+                        baby_name: "Baby Arjun",
+                        baby_dob: "2025-01-01"
+                    }),
+                });
+
+                let data;
+                if (res.status === 409) { // Already exists
+                    res = await fetch(`${API}/auth/login`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: "demo@neocare.com", password: "password123" }),
+                    });
+                }
+
+                data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Demo login failed');
+
+                localStorage.setItem('nc_token', data.token);
+                localStorage.setItem('nc_user', JSON.stringify(data.user));
+                showMsg('loginSuccess', '✓ Welcome to Demo! Redirecting…');
+                setTimeout(() => window.location.href = 'dashboard.html', 800);
+            } catch (e) {
+                showMsg('loginError', '⚠️ Demo access failed: ' + e.message);
+            }
+            setLoading('loginBtn', 'loginSpinner', false);
         }
 
         // Allow Enter key in inputs

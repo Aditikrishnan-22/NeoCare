@@ -28,10 +28,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── PATH CONFIGURATION ──────────────────────────────────────────
+# Define base directories relative to this file's location
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# frontend is at same level as backend, so go up one level from BASE_DIR (which is Neocare/backend)
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+FRONTEND_DIR = os.path.join(PROJECT_ROOT, "frontend")
+
 # Serve frontend static files
-app.mount("/static", StaticFiles(directory="../frontend"), name="static")
+app.mount("/static", 
+          StaticFiles(directory=FRONTEND_DIR), name="static")
 # Serve images folder
-app.mount("/images", StaticFiles(directory="../frontend/images"), name="images")
+app.mount("/images", StaticFiles(directory=os.path.join(FRONTEND_DIR, "images")), name="images")
 
 
 
@@ -245,15 +253,18 @@ async def test_alert(data: TestAlertInput):
 
 @app.get("/")
 async def serve_index():
-    return FileResponse("../frontend/login.html")
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 
 @app.get("/{page}.html")
 async def serve_page(page: str):
-    return FileResponse(f"../frontend/{page}.html")
+    file_path = os.path.join(FRONTEND_DIR, f"{page}.html")
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    raise HTTPException(status_code=404, detail="Page not found")
 
 
 if __name__ == "__main__":
     import os
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
